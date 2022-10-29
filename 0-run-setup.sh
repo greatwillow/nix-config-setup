@@ -7,10 +7,12 @@ repository_name="nix-config-setup"
 branch_name="main"
 1_setup_user_script_name="1-setup-user.sh" 
 2_install_nix_script_name="2-install-nix.sh"
+3_install_nix_config_script_name="3-install-nix-config.sh"
 
 file_names=(
 	$1_setup_user_script_name
 	$2_install_nix_script_name
+	$3_install_nix_config_script_name
 )
 
 for file_name in "${file_names[@]}"
