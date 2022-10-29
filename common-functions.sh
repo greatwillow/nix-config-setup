@@ -13,7 +13,7 @@ reload_shell() {
 }
 
 check_is_linux_os() {
-	if [ "$OSTYPE" = "linux"* ]; then
+	if [[ "$OSTYPE" == "linux"* ]]; then
 	   eval $1="true"
 	else
 	   eval $1="false"
@@ -21,9 +21,10 @@ check_is_linux_os() {
 }
 
 check_is_mac_os() {
-	if [ "$OSTYPE" = "darwin"* ]; then
+	if [[ "$OSTYPE" == "darwin"* ]]; then
 	   eval $1="true"
 	else
 	   eval $1="false"
 	fi
 }
+
