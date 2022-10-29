@@ -39,6 +39,43 @@ create_new_user() {
 	sudo passwd $user_name					# Prompt for password for new user
 }
 
+select_user() {
+	print_line "Enter the username from the above list which you would like to install this system on."
+	read selected_user
+
+	echo "You are currently switching to another prompt as user: $selected_user"
+	echo ""
+}
+
+download_script_files() {
+	base_url="https://raw.githubusercontent.com/greatwillow/"
+	repository_name="nix-config-setup"
+	branch_name="main"
+	2_install_nix_script_name="2-install-nix.sh"
+	3_install_nix_config_script_name="3-install-nix-config.sh"
+
+	file_names=(
+		$2_install_nix_script_name
+		$3_install_nix_config_script_name
+	)
+
+	for file_name in "${file_names[@]}"
+	do
+		curl "$base_url$repository_name/$branch_name/$file_name" -O
+	done
+}
+
+setup_selected_user() {
+	mkdir -p $HOME/nix-config-setup
+	cd $HOME/nix-config-setup
+	download_script_files
+	bash $2_install_nix_script_name
+}
+
+switch_to_selected_user() {
+	su -P -s $(which bash) -l $selected_user -c setup_selected_user
+}
+
 #===============================================================================
 # Program
 #===============================================================================
@@ -48,3 +85,5 @@ check_if_is_root_user
 print_users_list
 create_new_user
 print_users_list 
+select_user
+switch_to_selected_user
