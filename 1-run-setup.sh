@@ -95,7 +95,7 @@ switch_to_selected_user() {
 	fi
 
 	if [[ $is_mac_os == "true" ]]; then
-		su -P -s $(which bash) -l $selected_user -c setup_selected_user
+		su -s $(which bash) -l $selected_user -c setup_selected_user
 	fi 
 }
 
