@@ -50,7 +50,7 @@ create_new_user() {
 
 	if [[ $is_mac_os == "true" ]]; then 
 		sudo dscl . -create /Users/$user_name					# Add New User
-		print_line "Please enter a new user password:"		# Prompt for password for new user
+		print_line "Please enter a password for new user: $user_name"		# Prompt for password for new user
 		read_secret user_password
 		sudo dscl / -passwd /Users/$user_name $user_password					
 	fi
@@ -90,7 +90,13 @@ setup_selected_user() {
 }
 
 switch_to_selected_user() {
-	su -P -s $(which bash) -l $selected_user -c setup_selected_user
+	if [[ $is_linux_os == "true" ]]; then 
+		su -P -s $(which bash) -l $selected_user -c setup_selected_user
+	fi
+
+	if [[ $is_mac_os == "true" ]]; then
+		su -P -s $(which bash) -l $selected_user -c setup_selected_user
+	fi 
 }
 
 #===============================================================================
