@@ -15,7 +15,14 @@ check_is_linux_os is_linux_os
 
 print_users_list() {
 	print "Current available non root users are:"
-	grep ':/home' /etc/passwd | awk -F ':' '{print $1}'
+
+	if [[ $is_linux_os == "true" ]]; then 
+	 	grep ':/home' /etc/passwd | awk -F ':' '{print $1}'
+	fi
+
+	if [[ $is_mac_os == "true" ]]; then
+		dscl . list /Users
+	fi 
 }
 
 check_if_is_root_user() {
@@ -35,17 +42,13 @@ create_new_user() {
 	print_line "Please enter a new user name:"
 	read user_name
 
-	print_line "before creating linux user ------------ "
-	print_line "before creating linux user2 ------------ $is_linux_os"
 	if [[ $is_linux_os == "true" ]]; then 
 		sudo useradd -m $user_name							# Add New User
 		sudo usermod -a -G sudo $user_name					# Add New User to sudoers group
 		sudo passwd $user_name								# Prompt for password for new user
 	fi
 
-	print_line "before creating mac user ------------ "
 	if [[ $is_mac_os == "true" ]]; then 
-		print_line "creating mac user ------------ "
 		dscl . -create /Users/$user_name					# Add New User
 		print_line "Please enter a new user password:"		# Prompt for password for new user
 		read user_password
