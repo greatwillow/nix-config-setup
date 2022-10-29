@@ -7,7 +7,7 @@
 # Functions
 #===============================================================================
 
-source _common_functions
+source common-functions.sh
 
 print_users_list() {
 	print "Current available non root users are:"

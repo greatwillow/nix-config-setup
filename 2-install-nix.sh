@@ -4,7 +4,7 @@
 # Functions
 #===============================================================================
 
-source _common_functions
+source common-functions.sh
 
 install_nix() {
 	print_header "Installing Nix"

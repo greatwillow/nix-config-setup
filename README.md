@@ -4,7 +4,7 @@ Scripts designed to automate my personal nix home configuration setup made to wo
 
 #### Download and run the setup scripts with the following command:
 
-```cd $HOME/ && mkdir nix-config-setup && cd $_ && curl https://raw.githubusercontent.com/greatwillow/nix-config-setup/main/1-run-setup.sh -O && source 1-run-setup.sh```
+```cd $HOME/ && mkdir nix-config-setup && cd $_ && curl https://raw.githubusercontent.com/greatwillow/nix-config-setup/main/1-run-setup.sh -O && curl https://raw.githubusercontent.com/greatwillow/nix-config-setup/main/common-functions.sh -O && source 1-run-setup.sh```
 
 ## Context
 

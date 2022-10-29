@@ -11,7 +11,7 @@ nix_config_url="${base_url}/${repository_name}/archive/refs/heads/${branch_name}
 # Functions
 #===============================================================================
 
-source _common_functions
+source common-functions.sh
 
 query_for_alternate_nix_config_url() {
 	print_line "You are currently set to load the nix config at $nix_config_url"
