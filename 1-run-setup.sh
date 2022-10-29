@@ -49,10 +49,10 @@ create_new_user() {
 	fi
 
 	if [[ $is_mac_os == "true" ]]; then 
-		dscl . -create /Users/$user_name					# Add New User
+		sudo dscl . -create /Users/$user_name					# Add New User
 		print_line "Please enter a new user password:"		# Prompt for password for new user
-		read user_password
-		dscl / -passwd /Users/$user_name $user_password					
+		read_secret user_password
+		sudo dscl / -passwd /Users/$user_name $user_password					
 	fi
 }
 
