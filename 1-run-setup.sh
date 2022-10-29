@@ -95,7 +95,8 @@ switch_to_selected_user() {
 	fi
 
 	if [[ $is_mac_os == "true" ]]; then
-		su -P -s $(which bash) -l $selected_user -c "mkdir -p $HOME/nix-config-setup; cd $HOME/nix-config-setup; download_script_files; bash $2_install_nix_script_name;"
+		su -m $selected_user 
+		setup_selected_user
 	fi 
 }
 
