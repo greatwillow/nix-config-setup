@@ -9,19 +9,18 @@
 
 source common-functions.sh
 
+check_is_mac_os is_mac_os
+check_is_linux_os is_linux_os
+
 print_users_list() {
 	print "Current available non root users are:"
 	grep ':/home' /etc/passwd | awk -F ':' '{print $1}'
 }
 
 check_if_is_root_user() {
-	is_mac_os="false"
-	is_linux_os="false"
-	[[ "$OSTYPE" == "darwin"* ]] && is_mac_os="true"
-	[[ "$OSTYPE" == "linux"* ]] && is_linux_os="true"
 	current_user=$(whoami)
 
-	if [[ $is_linux_os == "true" && $current_user == "root" ]]; then
+	if [[ is_linux_os == "true" && $current_user == "root" ]]; then
 		print_line "It looks like you are currently logged in as a root user. This installation will only work for non root users."
 	fi
 }
@@ -34,9 +33,19 @@ create_new_user() {
 
 	print_line "Please enter a new user name:"
 	read user_name
-	sudo useradd -m $user_name				# Add New User
-	sudo usermod -a -G sudo $user_name		# Add New User to sudoers group
-	sudo passwd $user_name					# Prompt for password for new user
+
+	if [ $is_linux_os == "true "]; then 
+		sudo useradd -m $user_name							# Add New User
+		sudo usermod -a -G sudo $user_name					# Add New User to sudoers group
+		sudo passwd $user_name								# Prompt for password for new user
+	fi
+
+	if [ $is_mac_os == "true "]; then 
+		dscl . -create /Users/$user_name					# Add New User
+		print_line "Please enter a new user password:"		# Prompt for password for new user
+		read user_password
+		dscl / -passwd /Users/$user_name $user_password					
+	fi
 }
 
 select_user() {
