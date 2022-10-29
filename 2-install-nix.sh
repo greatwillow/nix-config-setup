@@ -14,7 +14,7 @@ install_nix() {
 
 restart_shell() {
 	print_header "Reloading Shell"
-	print_line "Run the following command to finish the setup process -------> cd /personal-setup-scripts; bash 4-install-packages.sh"
+	print_line "Run the following command to finish the setup process -------> cd /nix-config-setup; bash 3-install-nix-config.sh"
 	reload_shell
 }
 

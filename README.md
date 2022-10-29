@@ -18,3 +18,6 @@ Scripts designed to automate my personal nix home configuration setup made to wo
   
 ##### 2-install-nix.sh
 - This script will install Nix which is used for package management across platforms including different Linux distributions, MacOS and WSL.  Upon installing Nix, the user shell is restarted.  The output here will show an additional command that should be executed to run the final script below.
+
+##### 3-install-nix-config.sh
+- This script automates the download and installation of the desired nix-config setup.
