@@ -34,6 +34,8 @@ create_new_user() {
 	print_line "Please enter a new user name:"
 	read user_name
 
+	print_line "before creating linux user ------------ "
+	print_line "before creating linux user2 ------------ $is_linux_os"
 	if [ $is_linux_os == "true " ]; then 
 		sudo useradd -m $user_name							# Add New User
 		sudo usermod -a -G sudo $user_name					# Add New User to sudoers group
