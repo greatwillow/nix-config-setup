@@ -36,14 +36,14 @@ create_new_user() {
 
 	print_line "before creating linux user ------------ "
 	print_line "before creating linux user2 ------------ $is_linux_os"
-	if [ $is_linux_os == "true " ]; then 
+	if [ $is_linux_os == "true" ]; then 
 		sudo useradd -m $user_name							# Add New User
 		sudo usermod -a -G sudo $user_name					# Add New User to sudoers group
 		sudo passwd $user_name								# Prompt for password for new user
 	fi
 
 	print_line "before creating mac user ------------ "
-	if [ $is_mac_os == "true " ]; then 
+	if [ $is_mac_os == "true" ]; then 
 		print_line "creating mac user ------------ "
 		dscl . -create /Users/$user_name					# Add New User
 		print_line "Please enter a new user password:"		# Prompt for password for new user
