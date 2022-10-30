@@ -41,18 +41,41 @@ create_new_user() {
 
 	print_line "Please enter a new user name:"
 	read user_name
+	print_line "Please enter a password for new user: $user_name"		# Prompt for password for new user
+	read_secret user_password
 
 	if [[ $is_linux_os == "true" ]]; then 
 		sudo useradd -m $user_name							# Add New User
 		sudo usermod -a -G sudo $user_name					# Add New User to sudoers group
-		sudo passwd $user_name								# Prompt for password for new user
+		sudo passwd $user_password								# Prompt for password for new user
 	fi
 
 	if [[ $is_mac_os == "true" ]]; then 
+		full_name=$user_name
+		# Find out the next available user ID
+		max_id=$(dscl . -list /Users UniqueID | awk '{print $2}' | sort -ug | tail -1)
+		user_id=$((max_id+1))
+
 		sudo dscl . -create /Users/$user_name					# Add New User
-		print_line "Please enter a password for new user: $user_name"		# Prompt for password for new user
-		read_secret user_password
-		sudo dscl / -passwd /Users/$user_name $user_password					
+		sudo dscl . -create /Users/$user_name UserShell /bin/bash
+		sudo dscl . -create /Users/$user_name RealName $full_name
+		sudo dscl . -create /Users/$user_name UniqueID $user_id
+		sudo dscl . -create /Users/$user_name PrimaryGroupID 20
+		sudo dscl . -create /Users/$user_name NFSHomeDirectory /Users/$user_name
+
+		sudo dscl / -passwd /Users/$user_name $user_password
+
+		secondary_groups=""  # for a non-admin user
+		#secondary_groups="admin _lpadmin _appserveradm _appserverusr"
+
+		for group in $secondary_groups ; do
+    		dseditgroup -o edit -t user -a $user_name $group
+		done
+
+		# Create the home directory
+		createhomedir -c > /dev/null					
+	
+		echo "Created user #$user_id: $user_name ($full_name)"
 	fi
 }
 
