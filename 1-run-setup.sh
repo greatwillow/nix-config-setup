@@ -69,11 +69,11 @@ create_new_user() {
 		#secondary_groups="admin _lpadmin _appserveradm _appserverusr"
 
 		for group in $secondary_groups ; do
-    		dseditgroup -o edit -t user -a $user_name $group
+    		sudo dseditgroup -o edit -t user -a $user_name $group
 		done
 
 		# Create the home directory
-		createhomedir -c > /dev/null					
+		sudo createhomedir -c > /dev/null					
 	
 		echo "Created user #$user_id: $user_name ($full_name)"
 	fi
@@ -91,12 +91,10 @@ download_script_files() {
 	base_url="https://raw.githubusercontent.com/greatwillow/"
 	repository_name="nix-config-setup"
 	branch_name="main"
-	2_install_nix_script_name="2-install-nix.sh"
-	3_install_nix_config_script_name="3-install-nix-config.sh"
 
 	file_names=(
-		$2_install_nix_script_name
-		$3_install_nix_config_script_name
+		"2-install-nix.sh"
+		"3-install-nix-config.sh"
 	)
 
 	for file_name in "${file_names[@]}"
@@ -106,10 +104,10 @@ download_script_files() {
 }
 
 setup_selected_user() {
-	mkdir -p $HOME/nix-config-setup;
-	cd $HOME/nix-config-setup;
-	download_script_files;
-	bash $2_install_nix_script_name;
+	mkdir -p $HOME/nix-config-setup
+	cd $HOME/nix-config-setup
+	download_script_files
+	bash 2-install-nix.sh
 }
 
 switch_to_selected_user() {
@@ -118,7 +116,7 @@ switch_to_selected_user() {
 	fi
 
 	if [[ $is_mac_os == "true" ]]; then
-		su -m $selected_user 
+		sudo su -m $selected_user 
 		setup_selected_user
 	fi 
 }
